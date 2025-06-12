@@ -28,5 +28,7 @@ def main():
         sys.exit(1)
     sys.exit(0)
 
+    convert_markdown_to_html()
+
 if __name__ == "__main__":
     main()
