@@ -8,7 +8,7 @@ import re
 
 def convert_markdown_to_html():
     with open (sys.argv[1], 'r') as md_file, open(sys.argv[2], 'w') as html_file:
-        in_list = false
+        in_list = False
 
         for line in md_file:
             stripped = line.strip()
@@ -22,15 +22,16 @@ def convert_markdown_to_html():
 
             if (stripped.startswith('- ')):
                 if not in_list:
-                    in_list = true
+                    in_list = True
                     html_file.write(f"<ul>\n")
                 item = stripped[2:]
                 html_file.write(f"<li>{item}</li>")
             else:
-                in_list = false
+                in_list = False
                 html_file.write(f"</ul>\n")
 
         html_file.write(f"</ul>\n")
+        
 
 
 def main():
