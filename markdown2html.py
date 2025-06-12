@@ -25,13 +25,13 @@ def convert_markdown_to_html():
                     in_list = True
                     html_file.write(f"<ul>\n")
                 item = stripped[2:]
-                html_file.write(f"<li>{item}</li>")
+                html_file.write(f"<li>{item}</li>\n")
             else:
                 in_list = False
                 html_file.write(f"</ul>\n")
 
-        html_file.write(f"</ul>\n")
-        
+    html_file.write(f"\n</ul>\n")
+
 
 
 def main():
