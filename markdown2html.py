@@ -30,7 +30,7 @@ def convert_markdown_to_html():
                 in_list = False
                 html_file.write(f"</ul>\n")
 
-    html_file.write(f"\n</ul>\n")
+        html_file.write(f"\n</ul>\n")
 
 
 
