@@ -6,8 +6,8 @@ import sys
 import os
 import re
 
-def main():
-    with open (sys.argv[1], 'r') as md_file, open(sys.argv[2], 'w') as html_file:
+def convert_markdown_to_html():
+        with open (sys.argv[1], 'r') as md_file, open(sys.argv[2], 'w') as html_file:
         for line in md_file:
             stripped = line.strip()
 
@@ -18,6 +18,8 @@ def main():
                 content = heading_match.group(2)
                 html_file.write(f"<h{level}>{content}</h{level}>") 
 
+
+def main():
     if len(sys.argv) < 3:
         print("Usage: ./markdown2html.py README.md README.html", file=sys.stderr)
         sys.exit(1)
