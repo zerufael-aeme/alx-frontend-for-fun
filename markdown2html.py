@@ -9,6 +9,7 @@ import re
 def convert_markdown_to_html():
     with open (sys.argv[1], 'r') as md_file, open(sys.argv[2], 'w') as html_file:
         in_list = False
+        is_ordered = False
 
         for line in md_file:
             stripped = line.strip()
@@ -21,6 +22,7 @@ def convert_markdown_to_html():
                 html_file.write(f"<h{level}>{content}</h{level}>")
 
             if (stripped.startswith('- ')):
+                is_ordered = False
                 if not in_list:
                     in_list = True
                     html_file.write(f"<ul>\n")
@@ -30,7 +32,21 @@ def convert_markdown_to_html():
                 in_list = False
                 html_file.write(f"</ul>\n")
 
-        html_file.write(f"</ul>\n")
+            if (stripped.startswith('* ')):
+                is_ordered = True
+                if not in_list:
+                    in_list = True
+                    html_file.write(f"<ol>\n")
+                item = stripped[2:]
+                html_file.write(f"<li>{item}</li>\n")
+            else:
+                in_list = False
+                html_file.write(f"</ol>\n")
+
+        if is_ordered:
+            html_file.write(f"</ol>\n")
+        else:
+            html_file.write(f"</ul>\n")
 
 
 
