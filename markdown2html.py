@@ -7,7 +7,7 @@ import os
 import re
 
 def convert_markdown_to_html():
-        with open (sys.argv[1], 'r') as md_file, open(sys.argv[2], 'w') as html_file:
+    with open (sys.argv[1], 'r') as md_file, open(sys.argv[2], 'w') as html_file:
         for line in md_file:
             stripped = line.strip()
 
@@ -26,9 +26,10 @@ def main():
     if not os.path.exists(sys.argv[1]):
         print(f"Missing {sys.argv[1]}", file=sys.stderr)
         sys.exit(1)
-    sys.exit(0)
 
     convert_markdown_to_html()
+
+    sys.exit(0)
 
 if __name__ == "__main__":
     main()
