@@ -11,37 +11,46 @@ def convert_markdown_to_html():
         in_list = False
         first_line = True
 
-        for line in md_file:
-            stripped = line.strip()
+                for line in md_file:
+                    stripped = line.strip()
 
-            heading_match = re.match(r'^(#{1,6}) (.+)', stripped)
+                    # Headings
+                    heading_match = re.match(r'^(#{1,6}) (.+)', stripped)
+                    if heading_match:
+                        if not first_line:
+                            html_file.write('\n</p>\n')
+                            first_line = True
+                        level = len(heading_match.group(1))
+                        content = heading_match.group(2)
+                        html_file.write(f"<h{level}>{content}</h{level}>\n")
+                        continue
 
-            if heading_match:
-                level = len(heading_match.group(1))
-                content = heading_match.group(2)
-                html_file.write(f"<h{level}>{content}</h{level}>")
+                    # Lists
+                    if stripped.startswith('* '):
+                        if not in_list:
+                            in_list = True
+                            html_file.write("<ol>\n")
+                        html_file.write(f"<li>{stripped[2:]}</li>\n")
+                        continue
+                    elif in_list:
+                        in_list = False
+                        html_file.write("</ol>\n")
 
-            if (stripped.startswith('* ')):
-                if not in_list:
-                    in_list = True
-                    html_file.write(f"<ol>\n")
-                item = stripped[2:]
-                html_file.write(f"<li>{item}</li>\n")
-            elif in_list:
-                in_list = False
-                html_file.write(f"</ol>\n")
+                    # Blank lines (paragraph close)
+                    if stripped == "":
+                        if not first_line:
+                            html_file.write('\n</p>\n')
+                            first_line = True
+                        continue
 
-            if not stripped.startswith(('* ', '- ', '#')):
-                if first_line:
-                    html_file.write('<p>\n')
-                    html_file.write(stripped)
-                    first_line = False
-                elif stripped == "" and not first_line:
-                    first_line = True
-                    html_file.write('\n</p>\n')
-                else:
-                    html_file.write('\n<br />\n')
-                    html_file.write(stripped)
+                    # Paragraph text
+                    if first_line:
+                        html_file.write('<p>\n')
+                        html_file.write(stripped)
+                        first_line = False
+                    else:
+                        html_file.write('\n<br />\n')
+                        html_file.write(stripped)
 
         if in_list:
            html_file.write("</ol>\n")
