@@ -31,13 +31,13 @@ def convert_markdown_to_html():
                 in_list = False
                 html_file.write(f"</ol>\n")
 
-            if not (stripped.startswith('* ', '- ', '#')):
+            if not stripped.startswith('* ', '- ', '#'):
                 if first_line:
                     html_file.write('<p>\n')
                     html_file.write(stripped)
                     first_line = False
-                elif stripped= == "" and first_line == False:
-                    first_line == True
+                elif stripped == "" and first_line == False:
+                    first_line = True
                     html_file.write('</p>\n')
                 else:
                     html_file.write(stripped)
