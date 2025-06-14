@@ -63,9 +63,9 @@ def check_bold_and_italic(content):
     italic_match = re.match(r'(.+)\_\_(.+?)\_\_(.+)', content)
 
     if bold_match:
-        html_file.write(f'<{bold_match.group(1)} <b>{bold_match.group(2)}</b> {bold_match.group(3)}')
+        return f'<{bold_match.group(1)} <b>{bold_match.group(2)}</b> {bold_match.group(3)}'
     else:
-        html_file.write(f"{content}")
+        return content
 
 def main():
     if len(sys.argv) < 3:
