@@ -31,7 +31,7 @@ def convert_markdown_to_html():
                 in_list = False
                 html_file.write(f"</ol>\n")
 
-            if not stripped.startswith(('*', '-', '#')):
+            if not stripped.startswith(('* ', '- ', '#')):
                 if first_line:
                     html_file.write('<p>\n')
                     html_file.write(stripped)
@@ -42,6 +42,12 @@ def convert_markdown_to_html():
                 else:
                     html_file.write('\n<br />\n')
                     html_file.write(stripped)
+
+        if in_list:
+           html_file.write("</ol>\n")
+        if not first_line:
+           html_file.write('\n</p>\n')
+
 
 
 
