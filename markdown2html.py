@@ -22,7 +22,12 @@ def convert_markdown_to_html():
                     first_line = True
                 level = len(heading_match.group(1))
                 content = heading_match.group(2)
-                html_file.write(f"<h{level}>{content}</h{level}>\n")
+                style_match = re.match(r'(.+)\*\*(.+?)\*\*(.+)', line)
+                if style_match:
+                    html_file.write(f'<h{level}>{style_match.group(1)} <b>{style_match.group(2)}</b> {style_match.group(3)}</h{level}>\n')
+                else:
+                    html_file.write(f"<h{level}>{content}</h{level}>\n")
+                
                 continue
 
             # Lists
