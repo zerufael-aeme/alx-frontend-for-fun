@@ -5,6 +5,7 @@ markdown2html.py - Script to check Markdown input file and output HTML filename.
 import sys
 import os
 import re
+import hashlib
 
 def convert_markdown_to_html():
     with open (sys.argv[1], 'r') as md_file, open(sys.argv[2], 'w') as html_file:
@@ -68,6 +69,16 @@ def apply_formatting(content):
     italic_match = re.search(r'(.*)__(.+?)__(.*)', content)
     if italic_match:
         content = f"{italic_match.group(1)}<em>{italic_match.group(2)}</em>{italic_match.group(3)}"
+
+    md5_lower = re.search(r'(.*)\[\[(.+?)\]\](.*)')
+    if md5_lower:
+        content = f"{md5_lower.group(1)}{hashlib.md5(md5_lower.group(2))}{md5_lower.group(3)}"
+
+    remove_c = re.search(r'c')
+    if remove_c:
+        cleaned = re.sub(r'\s*[cC]\s*', ' ', content)
+        return re.sub(r'\s+', ' ', cleaned).strip()
+
 
     return content
 
