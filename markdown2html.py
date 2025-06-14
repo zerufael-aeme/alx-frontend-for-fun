@@ -27,7 +27,7 @@ def convert_markdown_to_html():
                     html_file.write(f"<ol>\n")
                 item = stripped[2:]
                 html_file.write(f"<li>{item}</li>\n")
-            else:
+            elif in_list:
                 in_list = False
                 html_file.write(f"</ol>\n")
 
