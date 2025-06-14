@@ -9,6 +9,7 @@ import re
 def convert_markdown_to_html():
     with open (sys.argv[1], 'r') as md_file, open(sys.argv[2], 'w') as html_file:
         in_list = False
+        first_line = True
 
         for line in md_file:
             stripped = line.strip()
@@ -29,6 +30,21 @@ def convert_markdown_to_html():
             else:
                 in_list = False
                 html_file.write(f"</ol>\n")
+
+            if not (stripped.startswith('* ', '- ', '#')):
+                if first_line:
+                    html_file.write('<p>\n')
+                    html_file.write(stripped)
+                    first_line = False
+                else if stripped= == "" and first_line == False:
+                    first_line == True
+                    html_file.write('</p>\n')
+                else:
+                    html_file.write(stripped)
+
+
+
+
 
         html_file.write(f"</ol>\n")
 
