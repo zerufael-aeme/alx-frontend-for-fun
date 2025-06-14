@@ -30,7 +30,7 @@ def convert_markdown_to_html():
                 if not in_list:
                     in_list = True
                     html_file.write("<ol>\n")
-                html_file.write(f"<li>{stripped[2:]}</li>\n")
+                html_file.write(f"<li>{check_bold_and_italic(stripped[2:])}</li>\n")
                 continue
             elif in_list:
                 in_list = False
@@ -46,11 +46,11 @@ def convert_markdown_to_html():
             # Paragraph text
             if first_line:
                 html_file.write('<p>\n')
-                html_file.write(stripped)
+                html_file.write(check_bold_and_italic(stripped))
                 first_line = False
             else:
                 html_file.write('\n<br />\n')
-                html_file.write(stripped)
+                html_file.write(check_bold_and_italic(stripped))
 
         if in_list:
            html_file.write("</ol>\n")
@@ -63,7 +63,12 @@ def check_bold_and_italic(content):
     italic_match = re.match(r'(.+)\_\_(.+?)\_\_(.+)', content)
 
     if bold_match:
-        return f'<{bold_match.group(1)} <b>{bold_match.group(2)}</b> {bold_match.group(3)}'
+        return f'<{bold_match.group(1)}<b>{bold_match.group(2)}</b>{bold_match.group(3)}'
+    else:
+        return content
+
+    if italic_match:
+        return f'<{italic_match.group(1)}<em>{italic_match.group(2)}</em>{italic_match.group(3)}'
     else:
         return content
 
