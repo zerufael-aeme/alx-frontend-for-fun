@@ -70,14 +70,15 @@ def apply_formatting(content):
     if italic_match:
         content = f"{italic_match.group(1)}<em>{italic_match.group(2)}</em>{italic_match.group(3)}"
 
-    md5_lower = re.search(r'(.*)\[\[(.+?)\]\](.*)')
+    md5_lower = re.search(r'(.*)\[\[(.+?)\]\](.*)', content)
     if md5_lower:
-        content = f"{md5_lower.group(1)}{hashlib.md5(md5_lower.group(2))}{md5_lower.group(3)}"
+        hashed = hashlib.md5(md5_lower.group(2).encode()).hexdigest()
+        content = f"{md5_lower.group(1)}{hashed}{md5_lower.group(3)}"
 
     remove_c = re.search(r'c')
     if remove_c:
         cleaned = re.sub(r'\s*[cC]\s*', ' ', content)
-        return re.sub(r'\s+', ' ', cleaned).strip()
+        content = re.sub(r'\s+', ' ', cleaned).strip()
 
 
     return content
