@@ -33,8 +33,8 @@ def convert_markdown_to_html():
 
             if not stripped.startswith(('*', '-', '#')):
                 if first_line:
-                    html_file.write('<p>\n')
-                    html_file.write(stripped)
+                    html_file.write('<p>')
+                    html_file.write('\n{stripped}')
                     first_line = False
                 elif stripped == "" and first_line == False:
                     first_line = True
