@@ -22,7 +22,7 @@ def convert_markdown_to_html():
                     first_line = True
                 level = len(heading_match.group(1))
                 content = heading_match.group(2)
-                html_file.write(f"<h{level}>{check_bold_and_italic(content)}</h{level}>\n")
+                html_file.write(f"<h{level}>{apply_formatting(content)}</h{level}>\n")
                 continue
 
             # Lists
@@ -30,7 +30,7 @@ def convert_markdown_to_html():
                 if not in_list:
                     in_list = True
                     html_file.write("<ul>\n")
-                html_file.write(f"<li>{check_bold_and_italic(stripped[2:])}</li>\n")
+                html_file.write(f"<li>{apply_formatting(stripped[2:])}</li>\n")
                 continue
             elif in_list:
                 in_list = False
@@ -46,11 +46,11 @@ def convert_markdown_to_html():
             # Paragraph text
             if first_line:
                 html_file.write('<p>\n')
-                html_file.write(check_bold_and_italic(stripped))
+                html_file.write(apply_formatting(stripped))
                 first_line = False
             else:
                 html_file.write('\n<br />\n')
-                html_file.write(check_bold_and_italic(stripped))
+                html_file.write(apply_formatting(stripped))
 
         if in_list:
            html_file.write("</ul>\n")
@@ -58,19 +58,18 @@ def convert_markdown_to_html():
            html_file.write('\n</p>\n')
 
 
-def check_bold_and_italic(content):
-    bold_match = re.match(r'(.?)\*\*(.+?)\*\*(.?)', content)
-    italic_match = re.match(r'(.?)\_\_(.+?)\_\_(.?)', content)
-
+def apply_formatting(content):
+    # Apply bold formatting first
+    bold_match = re.search(r'(.*)\*\*(.+?)\*\*(.*)', content)
     if bold_match:
-        return f'<{bold_match.group(1)}<b>{bold_match.group(2)}</b>{bold_match.group(3)}'
-    else:
-        return content
+        content = f"{bold_match.group(1)}<b>{bold_match.group(2)}</b>{bold_match.group(3)}"
 
+    # Apply italic formatting next
+    italic_match = re.search(r'(.*)__(.+?)__(.*)', content)
     if italic_match:
-        return f'<{italic_match.group(1)}<em>{italic_match.group(2)}</em>{italic_match.group(3)}'
-    else:
-        return content
+        content = f"{italic_match.group(1)}<em>{italic_match.group(2)}</em>{italic_match.group(3)}"
+
+    return content
 
 def main():
     if len(sys.argv) < 3:
