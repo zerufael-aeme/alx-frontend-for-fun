@@ -75,7 +75,7 @@ def apply_formatting(content):
         hashed = hashlib.md5(md5_lower.group(2).encode()).hexdigest()
         content = f"{md5_lower.group(1)}{hashed}{md5_lower.group(3)}"
 
-    remove_c = re.search(r'c')
+    remove_c = re.search(r'c', content)
     if remove_c:
         cleaned = re.sub(r'\s*[cC]\s*', ' ', content)
         content = re.sub(r'\s+', ' ', cleaned).strip()
