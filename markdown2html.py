@@ -38,15 +38,9 @@ def convert_markdown_to_html():
                     first_line = False
                 elif stripped == "" and first_line == False:
                     first_line = True
-                    html_file.write('</p>\n')
+                    html_file.write('\n</p>\n')
                 else:
                     html_file.write(stripped)
-
-
-
-
-
-        html_file.write(f"</ol>\n")
 
 
 
