@@ -40,7 +40,7 @@ def convert_markdown_to_html():
                     first_line = True
                     html_file.write('\n</p>\n')
                 else:
-                    html_file.write(stripped)
+                    html_file.write(f'\n{stripped}')
 
 
 
