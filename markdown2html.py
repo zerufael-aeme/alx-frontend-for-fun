@@ -22,12 +22,7 @@ def convert_markdown_to_html():
                     first_line = True
                 level = len(heading_match.group(1))
                 content = heading_match.group(2)
-                style_match = re.match(r'(.+)\*\*(.+?)\*\*(.+)', content)
-                if style_match:
-                    html_file.write(f'<h{level}>{style_match.group(1)} <b>{style_match.group(2)}</b> {style_match.group(3)}</h{level}>\n')
-                else:
-                    html_file.write(f"<h{level}>{content}</h{level}>\n")
-                
+                html_file.write(f"<h{level}>{check_bold_and_italic(content)}</h{level}>\n")
                 continue
 
             # Lists
@@ -63,7 +58,14 @@ def convert_markdown_to_html():
            html_file.write('\n</p>\n')
 
 
+def check_bold_and_italic(content):
+    bold_match = re.match(r'(.+)\*\*(.+?)\*\*(.+)', content)
+    italic_match = re.match(r'(.+)\_\_(.+?)\_\_(.+)', content)
 
+    if bold_match:
+        html_file.write(f'<{bold_match.group(1)} <b>{bold_match.group(2)}</b> {bold_match.group(3)}')
+    else:
+        html_file.write(f"{content}")
 
 def main():
     if len(sys.argv) < 3:
